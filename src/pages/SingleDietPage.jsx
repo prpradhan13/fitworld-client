@@ -37,7 +37,7 @@ function SingleDietPage() {
     }, { totalProtien: 0, totalCalories: 0, totalCarbohydrate: 0, totalFats: 0 })
 
   return (
-    <div className="text-white w-full h-screen px-3 md:px-9 lg:px-24 py-3 md:py-6 flex flex-col gap-4">
+    <div className="text-white w-full min-h-screen px-3 md:px-9 lg:px-24 py-3 md:py-6 flex flex-col gap-4">
       <h1 className="text-center text-3xl font-extrabold capitalize">{dietPlan.name}</h1>
       <p className="text-[#ffc300] text-base">Description: <span className="text-white">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi asperiores nobis ullam quo id enim sequi, atque tempora minima assumenda.</span></p>
       <div className="">
