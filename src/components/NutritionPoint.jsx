@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Meteors } from "../components/ui/meteors";
+import HomeSkeleton from "../components/skeleton/HomeSkeleton";
 
 function NutritionPoint() {
   const [nutrition, setNutrition] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -16,6 +18,7 @@ function NutritionPoint() {
       );
       if (data?.success) {
         setNutrition(data.dietPlan);
+        setLoading(false);
       } else {
         toast.error("Something went wrong");
       }
@@ -38,18 +41,20 @@ function NutritionPoint() {
         For a perfect body or growing muscles, a good diet plan is very important. Eat clean and healthy foods.
       </p>
       <div className="flex flex-col md:flex-row gap-5 pt-10">
-        {nutrition.map((items) => {
-          return (
-            <div
-              key={items._id}
-              onClick={() => navigate(`/singledietpage/${items._id}`)}
-              className="relative overflow-hidden cursor-pointer border-2 rounded-lg h-[30vh] flex items-center justify-center min-w-[230px] text-xl font-medium capitalize bg-gray-900"
-            >
-              {items.name}
-              <Meteors number={20} />
-            </div>
-          );
-        })}
+        {loading ? <HomeSkeleton /> : <>
+          {nutrition.map((items) => {
+            return (
+              <div
+                key={items._id}
+                onClick={() => navigate(`/singledietpage/${items._id}`)}
+                className="relative overflow-hidden cursor-pointer border-2 rounded-lg h-[30vh] flex items-center justify-center min-w-[230px] text-xl font-medium capitalize bg-gray-900"
+              >
+                {items.name}
+                <Meteors number={20} />
+              </div>
+            );
+          })}
+        </>}
       </div>
     </div>
   );

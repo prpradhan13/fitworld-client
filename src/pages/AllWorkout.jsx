@@ -4,6 +4,7 @@ import axios from "axios";
 import { FaArrowDown } from "react-icons/fa6";
 import {useAuth} from "../context/authContext";
 import NotLoginPopUp from "../components/NotLoginPopUp";
+import BoxSkeleton from "../components/skeleton/BoxSkeleton";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,12 +12,15 @@ function AllWorkout() {
   const [allWorkout, setAllWorkout] = useState([]);
   const [auth] = useAuth();
   const [popUp, setPopUp] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getAllWorkout = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/file/get-fileinfo`)
-      const fileData = res.data.fileInfo;
-      setAllWorkout(fileData);
+      const {data} = await axios.get(`${API_URL}/api/file/get-fileinfo`)
+      if (data?.success) {
+        setAllWorkout(data.fileInfo);
+        setLoading(false)
+      }
     } catch (error) {
       console.log(error);
       toast.error('Something went wrong')
@@ -66,17 +70,19 @@ function AllWorkout() {
       <h1 className="text-white text-center font-bold text-3xl">All Workout</h1>
       <p className="text-white text-center text-base">Total {allWorkout.length} Plans</p>
       <div className="w-full flex gap-3 flex-wrap mt-9 justify-center md:justify-start">
-        {allWorkout.map((items) => {
-          return (
-            <div key={items._id} className="group/item min-w-[300px] flex items-center gap-8 justify-between text-white capitalize border-2 rounded-lg p-2 text-lg font-semibold">
-              {items.name}
-              <button type="button" onClick={() => handleDownload(items._id, items.name)} className="bg-green-500 rounded-full p-2 group-hover/item:animate-bounce">
-                <FaArrowDown />
-              </button>
-            </div>
-          )
-        })
-        }
+        {loading ? <BoxSkeleton /> : <>
+          {allWorkout.map((items) => {
+            return (
+              <div key={items._id} className="group/item min-w-[300px] flex items-center gap-8 justify-between text-white capitalize border-2 rounded-lg p-2 text-lg font-semibold">
+                {items.name}
+                <button type="button" onClick={() => handleDownload(items._id, items.name)} className="bg-green-500 rounded-full p-2 group-hover/item:animate-bounce">
+                  <FaArrowDown />
+                </button>
+              </div>
+            )
+          })
+          }
+        </>}
       </div>
     </div>
 
