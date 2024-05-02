@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import NotLoginPopUp from "../components/NotLoginPopUp";
 import { useAuth } from "../context/authContext";
+import HomeSkeleton from "./skeleton/HomeSkeleton";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,6 +11,7 @@ function SpecialWorkout() {
     const [specialWorkout, setSpecialWorkout] = useState([]);
     const [popUp, setPopUp] = useState(false);
     const [auth] = useAuth();
+    const [loading, setLoading] = useState(true);
 
     const getSpecialWorkout = async () => {
         try {
@@ -18,6 +20,7 @@ function SpecialWorkout() {
 
             if(data?.success){
                 setSpecialWorkout(filteredData);
+                setLoading(false);
             }else{
                 toast.error('Failed to get file')
             }
@@ -93,30 +96,32 @@ function SpecialWorkout() {
             If your muscles stop growing, then follow these Champion level workouts.
         </p>
         <div className="py-9 px-5 flex gap-4 flex-wrap">
-            {specialWorkout.map((items) => {
-                return (
-                    <div key={items._id} className="bg-gray-800 w-full min-h-[200px] md:w-[300px] rounded-lg p-3 flex flex-col gap-3 justify-between">
-                        <h1 className="text-xl font-semibold">{items.name}</h1>
-                        <p className="text-neutral-400"> {items.description} </p>
-                        <div className="flex gap-2">
-                            <button
-                                type="button"
-                                onClick={() => handleView(items._id)}
-                                className="w-[50%] bg-blue-500 rounded-lg py-1 font-medium"
-                            >
-                                View
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleDownload(items._id, items.name)}
-                                className="w-[50%] bg-green-500 rounded-lg py-1 font-medium"
-                            >
-                                Download
-                            </button>
+            {loading ? <HomeSkeleton /> : <>
+                {specialWorkout.map((items) => {
+                    return (
+                        <div key={items._id} className="bg-gray-800 w-full min-h-[200px] md:w-[300px] rounded-lg p-3 flex flex-col gap-3 justify-between">
+                            <h1 className="text-xl font-semibold">{items.name}</h1>
+                            <p className="text-neutral-400"> {items.description} </p>
+                            <div className="flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => handleView(items._id)}
+                                    className="w-[50%] bg-blue-500 rounded-lg py-1 font-medium"
+                                >
+                                    View
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDownload(items._id, items.name)}
+                                    className="w-[50%] bg-green-500 rounded-lg py-1 font-medium"
+                                >
+                                    Download
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })}
+            </>}
         </div>
     </div>
 
