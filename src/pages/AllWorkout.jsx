@@ -68,7 +68,7 @@ function AllWorkout() {
     <>
     <div className="w-full min-h-[90vh] px-3 md:px-9 lg:px-24 py-3 md:py-6">
       <h1 className="text-white text-center font-bold text-3xl">All Workout</h1>
-      <p className="text-white text-center text-base">Total {allWorkout.length} Plans</p>
+      <p className="text-white text-center text-base">{loading ? "Please wait..." : `Total ${allWorkout.length} Plans`}</p>
       <div className="w-full flex gap-3 flex-wrap mt-9 justify-center md:justify-start">
         {loading ? <BoxSkeleton /> : <>
           {allWorkout.map((items) => {

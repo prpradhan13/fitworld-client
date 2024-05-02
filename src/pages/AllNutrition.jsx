@@ -34,7 +34,7 @@ function AllNutrition() {
     <>
     <div className="w-full h-screen px-3 md:px-9 lg:px-24 py-3 md:py-6">
       <h1 className="text-white text-center text-3xl font-bold">All Diet Plans</h1>
-      <p className="text-white text-center text-base">Total {allNutrition.length} Plans</p>
+      <p className="text-white text-center text-base">{loading ? "Please wait..." : `Total ${allNutrition.length} Plans`}</p>
       <div className="flex gap-5 flex-wrap mt-9 justify-center md:justify-start">
         {loading ? <BoxSkeleton /> : <>
           {allNutrition.map((items) => {
