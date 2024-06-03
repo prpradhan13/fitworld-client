@@ -74,10 +74,10 @@ function Navbar() {
       }
 
       <div className="hidden text-white md:flex items-center gap-5 font-semibold text-base">
-        <NavLink to={'/about'} className={'hover:text-blue-500'}>About</NavLink>
-        <NavLink to={'/allworkout'} className={'hover:text-blue-500'}>Workout</NavLink>
-        <NavLink to={'/allnutrition'} className={'hover:text-blue-500'}>Nutrition</NavLink>
-        <NavLink to={'/bmrcalcpage'} className={'hover:text-blue-500'}>BMR</NavLink>
+        <NavLink to={'/about'} className={({isActive}) => `${isActive ? "text-blue-500" : "text-white"} hover:text-blue-500`}>About</NavLink>
+        <NavLink to={'/allworkout'} className={({isActive}) => `${isActive ? "text-blue-500" : "text-white"} hover:text-blue-500`}>Workout</NavLink>
+        <NavLink to={'/allnutrition'} className={({isActive}) => `${isActive ? "text-blue-500" : "text-white"} hover:text-blue-500`}>Nutrition</NavLink>
+        <NavLink to={'/bmrcalcpage'} className={({isActive}) => `${isActive ? "text-blue-500" : "text-white"} hover:text-blue-500`}>BMR</NavLink>
 
         <div className="flex gap-5">
           {!auth.user ? <>
