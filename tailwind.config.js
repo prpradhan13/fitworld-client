@@ -12,6 +12,8 @@ export default {
       animation: {
         spotlight: "spotlight 2s ease .75s 1 forwards",
         "meteor-effect": "meteor 5s linear infinite",
+        rotate: "rotate4 2s linear infinite",
+        dash: "dash 1.5s ease-in-out infinite"
       },
       keyframes: {
         spotlight: {
@@ -31,6 +33,14 @@ export default {
             transform: "rotate(215deg) translateX(-500px)",
             opacity: "0",
           },
+        },
+        rotate4:{
+          "100%": {transform: "rotate(360deg)"}
+        },
+        dash:{
+          "0%": {"stroke-dasharray": "1, 200", "stroke-dashoffset": "0"},
+          "50%": {"stroke-dasharray": "90, 200", "stroke-dashoffset": "-35px"},
+          "100%": {"stroke-dashoffset": "-125px"}
         },
       },
     },

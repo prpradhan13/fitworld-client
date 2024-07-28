@@ -3,16 +3,19 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import BtnLoading from "../components/loader/BtnLoading";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [auth, setAuth] = useAuth()
+    const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
         const res = await axios.post(
             `${import.meta.env.VITE_API_URL}/api/auth/login`, {email, password}
@@ -33,6 +36,8 @@ function Login() {
     } catch (error) {
         console.log(error);
         toast.error('Something went wrong')
+    } finally {
+        setIsLoading(false)
     }
   };
 
@@ -60,8 +65,12 @@ function Login() {
                         className="border outline-none bg-transparent rounded-lg p-1 text-white"
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 rounded-lg my-2 p-2 font-semibold">
-                    Login
+                <button 
+                    type="submit"
+                    className={`${isLoading ? 'bg-[#50abff] cursor-not-allowed' : 'bg-blue-500'} text-white font-semibold w-full h-[48px] py-3 rounded-xl uppercase flex justify-center items-center`}
+                    disabled={isLoading}
+                >
+                    {isLoading ? <BtnLoading /> : "Log in"}
                 </button>
             </form>
             <p className="text-white mt-5">Have no account? <Link to={'/signup'} className="text-blue-500 underline">Create</Link></p>

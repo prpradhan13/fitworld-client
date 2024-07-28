@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import BtnLoading from "../components/loader/BtnLoading";
 
 function SignUp() {
     const [name, setName] = useState("");
@@ -10,11 +11,13 @@ function SignUp() {
     const [password, setPassword] = useState("");
     const [answer, setAnswer] = useState("");
     const [auth, setAuth] = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
         const res = await axios.post(
             `${import.meta.env.VITE_API_URL}/api/auth/signup`, {name, email, password, answer}
@@ -35,6 +38,8 @@ function SignUp() {
     } catch (error) {
         console.log(error);
         toast.error('Something went wrong')
+    } finally {
+        setIsLoading(false)
     }
   };
 
@@ -81,8 +86,12 @@ function SignUp() {
                         placeholder="Your hobby?"
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 rounded-lg my-2 p-2 font-semibold">
-                    Sign Up
+                <button 
+                    type="submit"
+                    className={`${isLoading ? 'bg-[#50abff] cursor-not-allowed' : 'bg-blue-500'} text-white font-semibold w-full h-[48px] py-3 rounded-xl uppercase flex justify-center items-center`}
+                    disabled={isLoading}
+                >
+                    {isLoading ? <BtnLoading /> : "Sign Up"}
                 </button>
             </form>
         </div>
